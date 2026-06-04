@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clínica Dental Galicia Argenis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+/* --- CSS BÁSICO --- */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+}
+
+header {
+    background-color: #005f73;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+nav {
+    background-color: #333;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    padding: 14px 20px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #11caa0;
+}
+
+.contenedor {
+    width: 85%;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px;
+}
+
+section {
+    background: white;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px #ccc;
+}
+
+h2 {
+    color: #005f73;
+    border-bottom: 2px solid #11caa0;
+    padding-bottom: 5px;
+}
+
+/* Tabla de Servicios */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #eee;
+}
+
+/* Formularios */
+.campo {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="tel"], input[type="date"],
+input[type="number"], select, textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #005f73;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #003d4a;
+}
+
+/* Secciones de Base de Datos */
+.db-seccion {
+    display: flex;
+    gap: 20px;
+}
+
+.form-panel, .view-panel {
+    flex: 1;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+/* Tarjetas de documentos */
+.doc-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-left: 4px solid #11caa0;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.doc-list {
+    max-height: 350px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+/* Mensajes de éxito y error */
+.msg {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    display: none;
+    font-size: 14px;
+}
+
+.msg.ok  { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.msg.err { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+  </style>
+</head>
+<body>
+
+<!-- ====================================================
+     HEADER
+==================================================== -->
+<header>
+  <h1>🦷 Clínica Dental Galicia Argenis</h1>
+  <p>Tu salud dental en manos de profesionales — Sistema de Gestión</p>
+</header>
+
+<!-- ====================================================
+     NAV
+==================================================== -->
+<nav id="main-nav">
+  <a href="#inicio">Inicio</a>
+  <a href="#servicios">Servicios</a>
+  <a href="#doctores">Doctores</a>
+  <a href="#agendar">Agendar Cita</a>
+  <a href="#db-pacientes">Pacientes</a>
+  <a href="#db-empleados">Empleados</a>
+  <a href="#db-pagos">Pagos</a>
+  <a href="#db-citas">Citas</a>
+  <a href="#db-tratamiento">Tratamientos</a>
+  <a href="#db-historial">Historial</a>
+</nav>
+
+<!-- ====================================================
+     CONTENEDOR PRINCIPAL
+==================================================== -->
+<div class="contenedor">
+
+  <!-- INICIO -->
+  <section id="inicio">
+    <h2><span class="icon">🏥</span> Bienvenido</h2>
+    <p>En la <strong>Clínica Dental Galicia Argenis</strong>, ofrecemos tecnología de punta para tratamientos dentales. Contamos con más de 10 años de experiencia cuidando sonrisas.</p>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <h2><span class="icon">📋</span> Nuestros Servicios y Costos</h2>
+    <table>
+      <tr><th>Tratamiento</th><th>Descripción</th><th>Costo</th></tr>
+      <tr><td>Limpieza Dental</td><td>Eliminación de sarro y placa bacteriana.</td><td>$800</td></tr>
+      <tr><td>Ortodoncia</td><td>Alineación de dientes con brackets.</td><td>$2,500 (mensual)</td></tr>
+      <tr><td>Blanqueamiento</td><td>Tratamiento láser para una sonrisa brillante.</td><td>$3,500</td></tr>
+      <tr><td>Extracción simple</td><td>Extracción dental con anestesia local.</td><td>$1,200</td></tr>
+      <tr><td>Endodoncia</td><td>Tratamiento de conducto radicular.</td><td>$4,000</td></tr>
+      <tr><td>Resina / Empaste</td><td>Restauración con resina compuesta.</td><td>$900</td></tr>
+    </table>
+  </section>
+
+  <!-- DOCTORES -->
+  <section id="doctores">
+    <h2><span class="icon">👨‍⚕️</span> Personal Especializado</h2>
+    <ul class="doctores">
+      <li><strong>Dr. Argenis Galicia</strong> — Cirujano Maxilofacial</li>
+      <li><strong>Dr. Ricardo Sosa</strong> — Odontólogo General</li>
+      <li><strong>Dra. Lucía Méndez</strong> — Ortodoncista</li>
+    </ul>
+  </section>
+
+  <!-- AGENDAR CITA -->
+  <section id="agendar">
+    <h2><span class="icon">📅</span> Solicita tu Cita</h2>
+    <div class="campo"><label>Nombre del Paciente</label><input type="text" placeholder="Nombre completo"/></div>
+    <div class="campo"><label>Teléfono de contacto</label><input type="tel" placeholder="656-123-4567"/></div>
+    <div class="campo">
+      <label>Servicio</label>
+      <select>
+        <option>Limpieza Dental</option>
+        <option>Ortodoncia (Brackets)</option>
+        <option>Blanqueamiento</option>
+        <option>Cambio de Ligas</option>
+        <option>Extracción de Muela</option>
+        <option>Resina / Empaste Dental</option>
+        <option>Endodoncia</option>
+        <option>Prótesis o Corona Dental</option>
+        <option>Revisión General</option>
+      </select>
+    </div>
+    <div class="campo"><label>Fecha deseada</label><input type="date"/></div>
+    <div class="campo"><label>Motivo de la consulta</label><textarea rows="3" placeholder="Describe tus síntomas…"></textarea></div>
+    <button class="btn btn-primary">Enviar Solicitud</button>
+  </section>
+
+  <!-- ================================================
+       DB — PACIENTES
+  ================================================ -->
+  <section id="db-pacientes">
+    <h2><span class="icon">🧑‍💼</span> Colección: Pacientes</h2>
+    <div class="db-section">
+      <!-- FORMULARIO -->
+      <div class="form-panel">
+        <h3>➕ Nuevo Paciente</h3>
+        <div id="msg-pacientes" class="msg"></div>
+        <div class="campo"><label>ID Paciente</label><input type="text" id="pac-id" placeholder="Pac-009"/></div>
+        <div class="campo"><label>Nombre</label><input type="text" id="pac-nombre" placeholder="Nombre"/></div>
+        <div class="campo"><label>Apellido</label><input type="text" id="pac-apellido" placeholder="Apellido"/></div>
+        <div class="campo"><label>Alergias</label><input type="text" id="pac-alergias" placeholder="penicilina / Ninguna"/></div>
+        <div class="campo"><label>Teléfono</label><input type="tel" id="pac-tel" placeholder="555-0000"/></div>
+        <div class="campo"><label>Dirección</label><input type="text" id="pac-dir" placeholder="Av. Principal"/></div>
+        <button class="btn btn-primary" onclick="insertar('pacientes', datosPaciente)">Guardar en MongoDB</button>
+      </div>
+      <!-- VISOR -->
+      <div class="view-panel">
+        <h3>📄 Documentos registrados</h3>
+        <button class="btn btn-view" onclick="verDocumentos('pacientes','lista-pacientes')">Cargar documentos</button>
+        <div id="lista-pacientes" class="doc-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       DB — EMPLEADOS
+  ================================================ -->
+  <section id="db-empleados">
+    <h2><span class="icon">👩‍⚕️</span> Colección: Empleados</h2>
+    <div class="db-section">
+      <div class="form-panel">
+        <h3>➕ Nuevo Empleado</h3>
+        <div id="msg-empleados" class="msg"></div>
+        <div class="campo"><label>Nombre</label><input type="text" id="emp-nombre" placeholder="Nombre"/></div>
+        <div class="campo"><label>Apellido</label><input type="text" id="emp-apellido" placeholder="Apellido"/></div>
+        <div class="campo"><label>Número Tel</label><input type="tel" id="emp-tel" placeholder="555-0000"/></div>
+        <div class="campo"><label>Dirección</label><input type="text" id="emp-dir" placeholder="Calle y número"/></div>
+        <div class="campo"><label>RFC</label><input type="text" id="emp-rfc" placeholder="RFC del empleado"/></div>
+        <div class="campo">
+          <label>Nivel Educativo</label>
+          <select id="emp-nivel">
+            <option>Basica</option>
+            <option>Media</option>
+            <option>Media superior</option>
+            <option>Superior</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="insertar('empleados', datosEmpleado)">Guardar en MongoDB</button>
+      </div>
+      <div class="view-panel">
+        <h3>📄 Documentos registrados</h3>
+        <button class="btn btn-view" onclick="verDocumentos('empleados','lista-empleados')">Cargar documentos</button>
+        <div id="lista-empleados" class="doc-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       DB — PAGOS
+  ================================================ -->
+  <section id="db-pagos">
+    <h2><span class="icon">💳</span> Colección: Pagos</h2>
+    <div class="db-section">
+      <div class="form-panel">
+        <h3>➕ Nuevo Pago</h3>
+        <div id="msg-pagos" class="msg"></div>
+        <div class="campo"><label>Folio de Pago</label><input type="number" id="pago-folio" placeholder="106"/></div>
+        <div class="campo"><label>ID Paciente</label><input type="text" id="pago-idpac" placeholder="Pac-006"/></div>
+        <div class="campo"><label>Fecha de Pago</label><input type="date" id="pago-fecha"/></div>
+        <div class="campo">
+          <label>Estado del Pago</label>
+          <select id="pago-estado">
+            <option>Completado</option>
+            <option>Pendiente</option>
+            <option>Cancelado</option>
+          </select>
+        </div>
+        <div class="campo"><label>Nombre del Cliente</label><input type="text" id="pago-cliente" placeholder="Nombre Apellido"/></div>
+        <button class="btn btn-primary" onclick="insertar('pagos', datosPago)">Guardar en MongoDB</button>
+      </div>
+      <div class="view-panel">
+        <h3>📄 Documentos registrados</h3>
+        <button class="btn btn-view" onclick="verDocumentos('pagos','lista-pagos')">Cargar documentos</button>
+        <div id="lista-pagos" class="doc-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       DB — CITAS
+  ================================================ -->
+  <section id="db-citas">
+    <h2><span class="icon">🗓️</span> Colección: Citas</h2>
+    <div class="db-section">
+      <div class="form-panel">
+        <h3>➕ Nueva Cita</h3>
+        <div id="msg-citas" class="msg"></div>
+        <div class="campo"><label>ID Cita</label><input type="text" id="cit-id" placeholder="cit-106"/></div>
+        <div class="campo"><label>ID Paciente</label><input type="text" id="cit-pac" placeholder="Pac-006"/></div>
+        <div class="campo"><label>ID Dentista</label><input type="text" id="cit-doc" placeholder="Doc-01"/></div>
+        <div class="campo">
+          <label>Tipo de Cita</label>
+          <select id="cit-tipo">
+            <option>Primera vez</option>
+            <option>Seguimiento</option>
+            <option>Urgencia</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="insertar('citas', datosCita)">Guardar en MongoDB</button>
+      </div>
+      <div class="view-panel">
+        <h3>📄 Documentos registrados</h3>
+        <button class="btn btn-view" onclick="verDocumentos('citas','lista-citas')">Cargar documentos</button>
+        <div id="lista-citas" class="doc-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       DB — TRATAMIENTO
+  ================================================ -->
+  <section id="db-tratamiento">
+    <h2><span class="icon">🩺</span> Colección: Tratamientos</h2>
+    <div class="db-section">
+      <div class="form-panel">
+        <h3>➕ Nuevo Tratamiento</h3>
+        <div id="msg-tratamiento" class="msg"></div>
+        <div class="campo"><label>ID Tratamiento</label><input type="text" id="trat-id" placeholder="Trat-06"/></div>
+        <div class="campo"><label>Servicio</label><input type="text" id="trat-serv" placeholder="Ej: Limpieza dental"/></div>
+        <div class="campo"><label>Descripción</label><textarea rows="2" id="trat-desc" placeholder="Descripción del procedimiento"></textarea></div>
+        <div class="campo"><label>ID Paciente</label><input type="text" id="trat-pac" placeholder="006"/></div>
+        <button class="btn btn-primary" onclick="insertar('tratamiento', datosTratamiento)">Guardar en MongoDB</button>
+      </div>
+      <div class="view-panel">
+        <h3>📄 Documentos registrados</h3>
+        <button class="btn btn-view" onclick="verDocumentos('tratamiento','lista-tratamiento')">Cargar documentos</button>
+        <div id="lista-tratamiento" class="doc-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       DB — HISTORIAL CLÍNICO
+  ================================================ -->
+  <section id="db-historial">
+    <h2><span class="icon">📂</span> Colección: Historial Clínico</h2>
+    <div class="db-section">
+      <div class="form-panel">
+        <h3>➕ Nuevo Historial</h3>
+        <div id="msg-historial_clinico" class="msg"></div>
+        <div class="campo"><label>ID Historia</label><input type="text" id="his-id" placeholder="His-6"/></div>
+        <div class="campo"><label>ID Paciente</label><input type="text" id="his-pac" placeholder="106"/></div>
+        <div class="campo"><label>Diagnóstico</label><input type="text" id="his-diag" placeholder="Ej: Caries"/></div>
+        <div class="campo"><label>Observaciones</label><textarea rows="2" id="his-obs" placeholder="Notas del dentista…"></textarea></div>
+        <button class="btn btn-primary" onclick="insertar('historial_clinico', datosHistorial)">Guardar en MongoDB</button>
+      </div>
+      <div class="view-panel">
+        <h3>📄 Documentos registrados</h3>
+        <button class="btn btn-view" onclick="verDocumentos('historial_clinico','lista-historial')">Cargar documentos</button>
+        <div id="lista-historial" class="doc-list"></div>
+      </div>
+    </div>
+  </section>
+
+<!-- VISUALIZADOR GENERAL -->
+<section id="visualizador">
+  <h2>Ver Registros de la Base de Datos</h2>
+
+  <div class="campo">
+    <label>Selecciona una colección:</label>
+    <select id="col-selector">
+      <option value="pacientes">Pacientes</option>
+      <option value="empleados">Empleados</option>
+      <option value="pagos">Pagos</option>
+      <option value="citas">Citas</option>
+      <option value="tratamiento">Tratamiento</option>
+      <option value="historial_clinico">Historial Clínico</option>
+    </select>
+  </div>
+
+  <button onclick="cargarColeccion()">Ver Registros</button>
+
+  <div id="resultado-visualizador" style="margin-top: 20px;"></div>
+</section>
+
+</div><!-- /contenedor -->
+
+<footer>
+  <p>&copy; 2026 <span>Clínica Dental Galicia Argenis</span>. Todos los derechos reservados.</p>
+</footer>
+
+<!-- ====================================================
+     JAVASCRIPT — Conexión con index.php
+==================================================== -->
+<script>
+  // ── Colectores de datos por colección ────────────────────
+  function datosPaciente() {
+    return {
+      "ID_paciente": v('pac-id'),
+      "Nombre":      v('pac-nombre'),
+      "Apellido":    v('pac-apellido'),
+      "Alergias":    v('pac-alergias'),
+      "Telefono":    v('pac-tel'),
+      "Direccion":   v('pac-dir'),
+    };
+  }
+  function datosEmpleado() {
+    return {
+      "Nombre":          v('emp-nombre'),
+      "Apellido":        v('emp-apellido'),
+      "Numero tel":      v('emp-tel'),
+      "Direccion":       v('emp-dir'),
+      "RFC":             v('emp-rfc'),
+      "Nivel educativo": v('emp-nivel'),
+    };
+  }
+  function datosPago() {
+    return {
+      "Folio de pago":     parseInt(v('pago-folio')) || 0,
+      "ID-paciente":       v('pago-idpac'),
+      "Fecha de pago":     v('pago-fecha'),
+      "Estado del pago":   v('pago-estado'),
+      "Nombre del cliente":v('pago-cliente'),
+    };
+  }
+  function datosCita() {
+    return {
+      "ID-cita":      v('cit-id'),
+      "ID-Paciente":  v('cit-pac'),
+      "ID-Dentista":  v('cit-doc'),
+      "Tipo de cita": v('cit-tipo'),
+    };
+  }
+  function datosTratamiento() {
+    return {
+      "ID-tratamiento": v('trat-id'),
+      "servicio":       v('trat-serv'),
+      "Descripcion":    v('trat-desc'),
+      "ID-paciente":    v('trat-pac'),
+    };
+  }
+  function datosHistorial() {
+    return {
+      "ID-Historia":  v('his-id'),
+      "ID-paciente":  v('his-pac'),
+      "Diagnostico":  v('his-diag'),
+      "observaciones":v('his-obs'),
+    };
+  }
+
+  // ── Helpers ──────────────────────────────────────────────
+  function v(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function mostrarMsg(col, tipo, texto) {
+    const el = document.getElementById('msg-' + col);
+    if (!el) return;
+    el.className = 'msg ' + tipo;
+    el.textContent = texto;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 4000);
+  }
+
+  // ── INSERTAR documento ───────────────────────────────────
+  async function insertar(col, datosFunc) {
+    const datos = datosFunc();
+    // Validar que al menos 1 campo tenga valor
+    const valores = Object.values(datos).filter(x => x !== '' && x !== 0);
+    if (valores.length === 0) {
+      mostrarMsg(col, 'err', '⚠️ Completa al menos un campo antes de guardar.');
+      return;
+    }
+    try {
+      const res = await fetch(`api/index.php?col=${col}&accion=insertar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos),
+      });
+      const json = await res.json();
+      if (res.ok && json.insertedId) {
+        mostrarMsg(col, 'ok', `✅ Documento guardado. ID: ${json.insertedId}`);
+        // Recargar lista si ya estaba visible
+        const lista = document.querySelector(`[id^="lista-${col}"], #lista-${col.replace('_','-')}`)
+                   || document.getElementById('lista-' + col);
+        if (lista && lista.children.length > 0) {
+          verDocumentos(col, lista.id);
+        }
+      } else {
+        mostrarMsg(col, 'err', '❌ Error: ' + (json.error || 'Respuesta inesperada'));
+      }
+    } catch (err) {
+      mostrarMsg(col, 'err', '❌ No se pudo conectar con el servidor PHP.');
+      console.error(err);
+    }
+  }
+
+  // ── VER documentos ───────────────────────────────────────
+  async function verDocumentos(col, listaId) {
+    const lista = document.getElementById(listaId);
+    if (!lista) return;
+    lista.innerHTML = '<span class="spinner"></span> Cargando…';
+    try {
+      const res  = await fetch(`api/index.php?col=${col}&accion=listar`);
+      const json = await res.json();
+      if (!res.ok) {
+        lista.innerHTML = `<p style="color:var(--danger)">❌ ${json.error || 'Error al cargar'}</p>`;
+        return;
+      }
+      const docs = json.documentos || [];
+      if (docs.length === 0) {
+        lista.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">Sin documentos aún.</p>';
+        return;
+      }
+      lista.innerHTML = '';
+      docs.forEach(doc => {
+        const card = document.createElement('div');
+        card.className = 'doc-card';
+        let contenido = '';
+        for (const [k, val] of Object.entries(doc)) {
+          if (k === '_id') continue;
+          contenido += `<span class="doc-key">${k}:</span> <span class="doc-val">${val}</span>&nbsp;&nbsp;`;
+        }
+        card.innerHTML = contenido;
+        lista.appendChild(card);
+      });
+    } catch (err) {
+      lista.innerHTML = '<p style="color:var(--danger)">❌ No se pudo conectar con el servidor.</p>';
+      console.error(err);
+    }
+  }
+
+  // ── Nav activo según scroll ──────────────────────────────
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    document.querySelectorAll('section').forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 80) current = sec.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+function cargarColeccion() {
+  const col = document.getElementById('col-selector').value;
+  const contenedor = document.getElementById('resultado-visualizador');
+  contenedor.innerHTML = 'Cargando...';
+
+  fetch('api/index.php?col=' + col + '&accion=listar')
+    .then(res => res.json())
+    .then(json => {
+      const docs = json.documentos || [];
+      if (docs.length === 0) {
+        contenedor.innerHTML = '<p>Sin documentos en esta colección.</p>';
+        return;
+      }
+
+      // Encabezados de la tabla desde las claves del primer documento
+      const claves = Object.keys(docs[0]).filter(k => k !== '_id');
+      let html = '<table><tr>';
+      claves.forEach(k => { html += '<th>' + k + '</th>'; });
+      html += '</tr>';
+
+      // Filas
+      docs.forEach(doc => {
+        html += '<tr>';
+        claves.forEach(k => { html += '<td>' + (doc[k] ?? '') + '</td>'; });
+        html += '</tr>';
+      });
+
+      html += '</table>';
+      html += '<p style="margin-top:10px; color:#555;">Total: ' + docs.length + ' registros</p>';
+      contenedor.innerHTML = html;
+    })
+    .catch(() => {
+      contenedor.innerHTML = '<p style="color:red;">Error al conectar con el servidor.</p>';
+    });
+}
+</script>
+
+</body>
+</html>
