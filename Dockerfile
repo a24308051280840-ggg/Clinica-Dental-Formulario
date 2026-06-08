@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# Instalar nginx y dependencias
+# Instalar nginx y dependencias del sistema
 RUN apt-get update && apt-get install -y \
     nginx \
     libssl-dev \
@@ -31,17 +31,21 @@ RUN echo 'server { \n\
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copiar archivos
+# Copiar archivos del proyecto
 COPY . /var/www/html/
 
 WORKDIR /var/www/html
+
+# Instalar dependencias PHP
 RUN composer install --no-interaction --optimize-autoloader --ignore-platform-req=ext-mongodb
 
+# Permisos correctos
 RUN chown -R www-data:www-data /var/www/html
 
-# Script de inicio
-RUN echo '#!/bin/bash\nphp-fpm -D\nnginx -g "daemon off;"' > /start.sh
+# Script de inicio — arranca php-fpm primero, luego nginx
+RUN printf '#!/bin/bash\nphp-fpm -D\nsleep 1\nnginx -g "daemon off;"' > /start.sh
 RUN chmod +x /start.sh
 
 EXPOSE 80
+
 CMD ["/start.sh"]
