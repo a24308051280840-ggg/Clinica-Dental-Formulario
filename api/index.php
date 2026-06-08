@@ -7,7 +7,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // --- Configuración de conexión ---
-$host   = getenv('MONGODB_URI') ?: 'mongodb://localhost:27017';
+$host   = mongodb+srv://Argenis_Galicia:argenis1234@cluster0.gmolxyq.mongodb.net/dentista?appName=Cluster0;
 $dbName = 'dentista';
 
 try {
