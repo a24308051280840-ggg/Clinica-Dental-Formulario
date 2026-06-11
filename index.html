@@ -312,21 +312,21 @@
     <!-- Campo: Nombre del paciente -->
     <div class="campo">
       <label>Nombre del Paciente</label>
-      <input type="text" placeholder="Nombre completo"/>
+      <input type="text" id="ag-nombre" placeholder="Nombre completo"/>
       <!-- Input de texto para capturar el nombre completo del paciente -->
     </div>
 
     <!-- Campo: Teléfono de contacto -->
     <div class="campo">
       <label>Teléfono de contacto</label>
-      <input type="tel" placeholder="656-123-4567"/>
+      <input type="tel" id="ag-tel" placeholder="656-123-4567"/>
       <!-- Input tipo teléfono; en móviles abre teclado numérico -->
     </div>
 
     <!-- Campo: Tipo de servicio -->
     <div class="campo">
       <label>Servicio</label>
-      <select>
+      <select id="ag-servicio">
         <!-- Lista desplegable con los servicios disponibles en la clínica -->
         <option>Limpieza Dental</option>
         <option>Ortodoncia (Brackets)</option>
@@ -343,18 +343,21 @@
     <!-- Campo: Fecha deseada -->
     <div class="campo">
       <label>Fecha deseada</label>
-      <input type="date"/>
+      <input type="date" id="ag-fecha"/>
       <!-- Input tipo fecha; muestra un selector de calendario en el navegador -->
     </div>
 
     <!-- Campo: Motivo de la consulta -->
     <div class="campo">
       <label>Motivo de la consulta</label>
-      <textarea rows="3" placeholder="Describe tus síntomas…"></textarea>
+      <textarea id="ag-motivo" rows="3" placeholder="Describe tus síntomas…"></textarea>
       <!-- Área de texto multilínea para describir los síntomas o motivo de visita -->
     </div>
 
-    <button class="btn btn-primary">Enviar Solicitud</button>
+  <div id="msg-citas" class="msg"></div>  <!-- ya existe en #db-citas, reutilízalo o pon uno nuevo -->
+  <div id="msg-agendar" class="msg"></div>
+
+    <button class="btn btn-primary" onclick="agendarCita()">Enviar Solicitud</button>
     <!-- Botón de envío del formulario de cita (sin acción JS conectada aún) -->
   </section>
 
@@ -810,17 +813,14 @@
   // col: nombre de la colección destino
   // datosFunc: función recolectora que retorna el objeto con los datos del formulario
   async function insertar(col, datosFunc) {
-    const datos = datosFunc(); // Ejecuta la función recolectora para obtener los datos del formulario
+    const datos = datosFunc();
 
-    // Filtra los valores del objeto para verificar que al menos uno no esté vacío ni sea 0
-    const valores = Object.values(datos).filter(x => x !== '');
-
-    // Si todos los campos están vacíos, muestra un error y no envía la petición
-    if (valores.length === 0) {
-      mostrarMsg(col, 'err', '⚠️ Completa al menos un campo antes de guardar.');
-      return; // Sale de la función sin realizar la petición al servidor
+    // Verifica que los campos de texto (no selects) no estén vacíos
+    const camposTexto = Object.entries(datos).filter(([k, v]) => typeof v === 'string' && v === '');
+    if (camposTexto.length > 0) {
+        mostrarMsg(col, 'err', '⚠️ Completa todos los campos antes de guardar.');
+        return;
     }
-
     try {
       // Realiza una petición POST al backend PHP con la colección y acción como parámetros de URL
       const res = await fetch(`api/index.php?col=${col}&accion=insertar`, {
@@ -986,6 +986,46 @@
         contenedor.innerHTML = '<p style="color:red;">Error al conectar con el servidor.</p>';
       });
   }
+
+function agendarCita() {
+  const datos = {
+    "ID-cita":      'cit-' + Date.now(),   // genera un ID automático
+    "ID-Paciente":  v('ag-nombre'),
+    "Telefono":     v('ag-tel'),
+    "Tipo de cita": v('ag-servicio'),
+    "Fecha":        v('ag-fecha'),
+    "Motivo":       v('ag-motivo'),
+  };
+
+  // Reutiliza tu función insertar() apuntando a la colección 'citas'
+  // pero primero validamos manualmente
+  const vacios = Object.values(datos).filter(x => x === '');
+  if (vacios.length > 0) {
+    mostrarMsg('agendar', 'err', '⚠️ Completa todos los campos.');
+    return;
+  }
+
+  insertar_directo('citas', datos, 'agendar');
+}
+
+// Versión de insertar() que recibe el objeto ya armado
+async function insertar_directo(col, datos, msgCol) {
+  try {
+    const res = await fetch(`api/index.php?col=${col}&accion=insertar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+    });
+    const json = await res.json();
+    if (res.ok && json.insertedId) {
+      mostrarMsg(msgCol, 'ok', '✅ Cita enviada correctamente.');
+    } else {
+      mostrarMsg(msgCol, 'err', '❌ Error: ' + (json.error || 'Respuesta inesperada'));
+    }
+  } catch (err) {
+    mostrarMsg(msgCol, 'err', '❌ No se pudo conectar con el servidor.');
+  }
+}
 
 </script>
 
