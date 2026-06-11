@@ -862,7 +862,7 @@
   // col: nombre de la colección a consultar
   // listaId: id del div donde se inyectarán las tarjetas de documentos
   async function verDocumentos(col, listaId) {
-  const lista = document.getElementById('lista-' + col);
+  const lista = document.getElementById(listaId); // ← usar listaId, no construirlo
     if (!lista) return; // Si el contenedor no existe, sale sin hacer nada
 
     lista.innerHTML = '<span class="spinner"></span> Cargando…'; // Muestra indicador de carga mientras espera la respuesta
